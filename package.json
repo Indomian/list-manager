@@ -1,0 +1,19 @@
+{
+  "name": "list-manager",
+  "version": "0.0.1",
+  "description": "List manager for advert editors",
+  "main": "background.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Indomian/list-manager.git"
+  },
+  "author": "Egor Bolgov <blade39@yandex.ru>",
+  "license": "GPL-2.0",
+  "bugs": {
+    "url": "https://github.com/Indomian/list-manager/issues"
+  },
+  "homepage": "https://github.com/Indomian/list-manager#readme"
+}
