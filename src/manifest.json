@@ -1,0 +1,38 @@
+{
+  "name": "list-manager",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "description": "Extension provides listing of advert requests.",
+  "browser_action": {
+    "default_icon": "static/icon.png",
+    "default_title": "list-manager"
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "content_scripts": [
+    {
+      "css": [
+        "static/plugins.css"
+      ],
+      "matches": [
+        "https://vk.com/exchange*",
+        "http://vk.com/exchange*"
+      ],
+      "js": [
+        "content.js"
+      ],
+      "all_frames": false
+    }
+  ],
+  "permissions": [
+    "tabs",
+    "https://vk.com/exchange*",
+    "http://vk.com/exchange*"
+  ],
+  "web_accessible_resources": [
+    "/static/*"
+  ]
+}
