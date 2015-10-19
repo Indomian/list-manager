@@ -2,8 +2,21 @@
 
 const isObject = require('./include/lib/isObject');
 const {MessageProcessor} = require('./include/MessageProcessor');
+const {DataStorage} = require('./include/DataStorage');
 
 let main = new MessageProcessor();
+main.dataList = new DataStorage();
+
+function createCallbackResponse(callbackResponse) {
+  return function(error, data) {
+    error = error || '';
+    data = data || null;
+    callbackResponse({
+      error,
+      data,
+    });
+  };
+}
 
 /**
  * Function process messages from content scripts to background.
@@ -14,6 +27,8 @@ let main = new MessageProcessor();
  * @returns {boolean}
  */
 function messageProcessor(message, sender, callbackResponse) {
+  callbackResponse = createCallbackResponse(callbackResponse);
+
   if (!isObject(message)) {
     callbackResponse('message has wrong structure');
   }

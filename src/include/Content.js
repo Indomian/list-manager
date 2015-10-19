@@ -11,9 +11,40 @@ class Content {
     return this._url.getQueryVar('act') === 'community_search';
   }
 
+  sendMessage(action, data, callback) {
+    let message = {
+      action: action,
+      data: data,
+    };
+    chrome.runtime.sendMessage(message, function(answer) {
+      callback.call(this, answer.error, answer.data);
+    });
+  }
+
+  /**
+   * Method creates item buttom binded to current content instance.
+   * Also it checks if current row is data row.
+   *
+   * @param {HTMLElement} element - row of table to which button should be added
+   */
   createItemButton(element) {
-    if (element.querySelector('td:nth-child(6) button')) {
-      this._itemsMap.set(element, new ItemButton(this, element));
+    let button = element.querySelector('td:nth-child(6) button');
+    if (button !== null) {
+      let onclickText = button.getAttribute('onclick');
+      let match = onclickText.match(/^Exchange\.addRequest\((\d+), (\d+), 1\);$/);
+      if (match) {
+        this.sendMessage('isInList', match[1], (error, answer) => {
+          if (error === '') {
+            let button = new ItemButton(this, element, match[1], match[2]);
+            this._itemsMap.set(element, button);
+            if (answer === true) {
+              button.mode = ItemButton.MODE_REMOVE;
+            } else {
+              button.mode = ItemButton.MODE_ADD;
+            }
+          }
+        });
+      }
     }
   }
 
@@ -45,6 +76,13 @@ class Content {
           }
 
           break;
+        } else if (mutation.target.tagName === 'TABLE') {
+          this._itemsMap.forEach(element => element.remove());
+          this._itemsMap.clear();
+          let nodes = Array.prototype.slice.call(document.querySelectorAll('#exchange_comm_search_table tr'));
+          nodes.forEach((element) => {
+            this.createItemButton(element);
+          });
         }
       }
     });

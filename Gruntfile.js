@@ -75,6 +75,7 @@ module.exports = function(grunt) {
             src: [
               '**/*.png',
               '**/*.gif',
+              '**/*.html',
             ],
             dest: 'result/static/',
             flatten: true,
@@ -116,6 +117,17 @@ module.exports = function(grunt) {
         ],
       },
     },
+    crx: {
+      build: {
+        src: [
+          'result/**/*',
+        ],
+        dest: 'dist/list-manager-<%= pkg.version %>.crx',
+        options: {
+          privateKey: 'result.pem',
+        },
+      },
+    },
   });
 
   // Load the plugin that provides the "uglify" task.
@@ -123,6 +135,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-browserify');
+  grunt.loadNpmTasks('grunt-crx');
 
   grunt.registerTask('build', [
     'clean',
@@ -131,6 +144,11 @@ module.exports = function(grunt) {
     'less',
     'browserify',
     'clean:after',
+  ]);
+
+  grunt.registerTask('build-crx', [
+    'build',
+    'crx:build',
   ]);
 
   grunt.registerTask('default', [

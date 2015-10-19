@@ -16,7 +16,7 @@ module.exports = function isObject(obj) {
   }
 
   // jscs:disable
-  for (let key in obj) {
+  for (var key in obj) {
     //
   }
   // jscs:enable

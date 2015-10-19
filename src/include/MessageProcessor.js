@@ -42,11 +42,25 @@ class MessageProcessor {
           callbackResponse();
           break;
         case 'addToList':
-          let item = this.dataList.add(message.data);
+          let item = this.dataList.set(message.data, 1);
           callbackResponse('', item);
           break;
+        case 'isInList':
+          console.log(this.dataList);
+          callbackResponse('', this.dataList.has(message.data));
+          break;
+        case 'removeFromList':
+          if (this.dataList.has(message.data)) {
+            this.dataList.remove(message.data);
+          }
+
+          callbackResponse();
+          break;
+        case 'getList':
+          let result = this.dataList.getAll();
+          callbackResponse('', result);
+          break;
         default:
-          console.log(message);
           callbackResponse('Action not supported');
       }
     } catch (e) {

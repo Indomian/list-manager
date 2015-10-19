@@ -5,7 +5,8 @@
   "description": "Extension provides listing of advert requests.",
   "browser_action": {
     "default_icon": "static/icon.png",
-    "default_title": "list-manager"
+    "default_title": "list-manager",
+    "default_popup": "static/list.html"
   },
   "background": {
     "scripts": [
